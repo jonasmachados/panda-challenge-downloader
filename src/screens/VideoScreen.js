@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Button,
   ActivityIndicator,
   FlatList,
   Alert,
+  ScrollView,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import VideoPlayer from "../components/VideoPlayer";
-import { Video } from "expo-av";
+import commonStyles from "../styles/commonStyles";
+import Button from "../components/Button";
 
 const VideoScreen = ({ route }) => {
   const { selectedVideo } = route.params;
@@ -66,8 +67,10 @@ const VideoScreen = ({ route }) => {
   const renderItem = ({ item }) => <VideoPlayer videoURL={item.video_player} />;
 
   return (
-    <View>
-      <Text>{selectedVideo.title}</Text>
+    <View style={commonStyles.container}>
+      <ScrollView>
+        <Text style={commonStyles.title}>{selectedVideo.title}</Text>
+      </ScrollView>
 
       <FlatList
         data={[selectedVideo]}
@@ -76,19 +79,12 @@ const VideoScreen = ({ route }) => {
       />
 
       <Button
-        title={loading ? "Downloading..." : "Download/Save Video"}
         onPress={downloadVideo}
-        disabled={loading}
+        title="Download / Save Video"
+        loading={loading}
       />
 
       {loading && <ActivityIndicator style={{ marginTop: 20 }} />}
-
-      <Video
-        source={{ uri: selectedVideo.video_player }}
-        resizeMode="contain"
-        useNativeControls
-        style={{ width: 300, height: 200 }}
-      />
     </View>
   );
 };
