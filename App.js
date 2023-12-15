@@ -1,11 +1,12 @@
-import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useState } from "react";
 import AppNavigator from "./src/navigation/AppNavigator";
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
-  );
+  const [user, setUser] = useState(null);
+
+  const updateUser = (userData) => {
+    setUser(userData);
+  };
+
+  return <AppNavigator user={user} updateUser={updateUser} />;
 }
